@@ -208,6 +208,7 @@ function loadXML(feedData) {
 
 
 $(document).ready(function(){
+    console.log('LOADED');
     var news = $('#news');
     var navbar = $('.navbar-collapse');
     var feedLinks = $('#feed-links');

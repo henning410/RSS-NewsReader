@@ -1,0 +1,21 @@
+/* padding for navbar */
+body {
+    padding-top: 70px;
+}
+
+div.template {
+    display: none;
+}
+
+.entry-header {
+    overflow:hidden;
+    clear: both;
+}
+
+.entry-title {
+    float: left;
+}
+
+.entry-date {
+    float: right;
+}

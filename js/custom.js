@@ -8,10 +8,10 @@
 var feeds = [
     {
         id: 'it-board',
-        url: 'https://intranetportal.hs-esslingen.de/index.php?id=93917&type=101',
+        url: 'https://intranetportal.hs-esslingen.de/it-board?type=9818',
         dataType: 'jsonp',
         displayName: 'IT-Board',
-        handler: loadJSONP
+        handler: loadXML
     },
     {
         id: 'it-news',
@@ -197,8 +197,10 @@ function loadXML(feedData) {
                 title: $(element).find('title').text(),
                 link: $(element).find('link').text(),
                 pubDate: $(element).find('pubDate').text(),
-                description: $(element).find('description').text()
+                description: $(element).find('link').siblings(':last').text(),
+                //description: $(element).after('description'),
             };
+            console.log(item);
             items.push(item);
         });
 
@@ -208,6 +210,7 @@ function loadXML(feedData) {
 
 
 $(document).ready(function(){
+    console.log('Loaded');
     var news = $('#news');
     var navbar = $('.navbar-collapse');
     var feedLinks = $('#feed-links');

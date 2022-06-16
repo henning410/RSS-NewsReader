@@ -1,30 +1,30 @@
-/**
+/*
  * Created by magaert on 08.02.2017.
  * 2018-04-25 adjust URL RSS feed after Relaunch FM
  *
- * Updated by heweit00
- * adjustment to work with new intranet-structure.
+ * Updated by heweit00 summer 2022
+ * adjustment to work with new intranet-structure
  * deleted old, unnecessary content
+ * created language support, color-themes and for better usability accordions
  */
 
 $(document).ready(function () {
     console.log("Page loaded");
     const RSS_URL = `https://intranetportal.hs-esslingen.de/it-board?type=9818`;
     loadRSS(RSS_URL);
-    /* Check if current color theme is already stored in local Storage.
-    * If not, we set the darkmode to false and store it in local Storage.
-    * If darkmode exists in local storage, we check if its true to load darkmode css
-    */
+    // Check if darkmode-key is already stored in localStorage.
     if (localStorage.getItem('darkmode') === null) {
+        // if not, we set the darkmode to false and store it in localStorage.
         localStorage.setItem('darkmode', 'false');
     } else if (localStorage.getItem('darkmode') === "true") {
+        // if darkmode exists in local storage, we check if it's true to load darkmode css
         loadDarkmode();
     }
 });
 
-/*
-* function to initialize google translation
-*/
+/**
+ * function to initialize google translation
+ */
 function googleTranslateElementInit() {
     new google.translate.TranslateElement(
         {
@@ -36,7 +36,8 @@ function googleTranslateElementInit() {
 }
 
 /**
- * making ajax reqeust on specific url and load rss content into html by calling updateFeed() method
+ * making ajax get-reqeust on specific url and load rss content into html by calling updateFeed() method
+ * if loading of data is causing some error, calling loadErrorMessage() to show error to user
  * @param url
  */
 function loadRSS(url) {
@@ -63,6 +64,9 @@ function loadRSS(url) {
     });
 }
 
+/**
+ * loading error message into DOM
+ */
 function loadErrorMessage() {
     $("#loading").text(""); //delete loading message
     var errorMessage = $("<p></p>").text("Data could not be loaded");
@@ -78,7 +82,6 @@ function updateFeed(feed, entries) {
     // remove all existing feed items
     feed.children(".entry").not(".template").remove();
     var template = feed.find("div.entry.template");
-
     $.each(entries, function (index, entry) {
         var clone = fillEntry(template, entry, index);
         clone.appendTo(feed);
@@ -89,7 +92,7 @@ function updateFeed(feed, entries) {
  * Fills out a template for a feed entry with the given entry data
  * @param template the template for a feed entry
  * @param entry content data for a feed entry
- * @param index
+ * @param index current number of feed item
  * @returns {*} cloned template with filled in feed data
  */
 function fillEntry(template, entry, index) {
@@ -102,7 +105,6 @@ function fillEntry(template, entry, index) {
     clone.find(".panel-collapse").attr("id", "collapse" + index);
     clone.find(".panel-collapse").attr("aria-labelledby", "heading" + index);
     clone.find(".entry-title").text(entry.title);
-    /*clone.find(".entry-url").attr("href", entry.link);*/
     clone.find(".entry-date").text(date.toLocaleString());
     var entryContent = clone.find(".entry-content");
     entryContent.html(entry.description);
@@ -165,30 +167,30 @@ function fixDownloadsAndImages($content) {
 }
 
 /**
- *  Creates a short excerpt of the given entry content and prepends it
+ * Creates a short excerpt of the given entry content and prepends it
  * @param $content feed entry content
  */
 function createShortExcerpt($content) {
 }
 
-/*
-* Click-event on button to switch current color mode.
-* After switching update current state in localStorage
-*/
+/**
+ * Click-event on save button in settings-modal
+ */
 $("#saveButton").click(function () {
-    // checking if state of switch is different from current state
-    if (localStorage.getItem('darkmode') !== String($("input[type='checkbox']").is(":checked"))) {
-        // checking if darkmode was activated or disabled
-        if ($("input[type='checkbox']").is(":checked")) {
-            localStorage.setItem('darkmode', 'true');
-            loadDarkmode();
-        } else {
-            localStorage.setItem('darkmode', 'false');
-            clearDarkmode();
-        }
+    // checking current state of switch to get color mode
+    if ($("input[type='checkbox']").is(":checked")) {
+        localStorage.setItem('darkmode', 'true');
+        loadDarkmode();
+    } else {
+        localStorage.setItem('darkmode', 'false');
+        clearDarkmode();
     }
 });
 
+/**
+ * Click-event on close button in settings-modal
+ * making sure, switch-button is set back to colormode stored in localStorage to not update it
+ */
 $("#closeButton").click(function () {
     if (localStorage.getItem('darkmode') === 'false') {
         $("input[type='checkbox']").prop('checked', false);
@@ -197,6 +199,9 @@ $("#closeButton").click(function () {
     }
 });
 
+/**
+ * Method to remove all darkmode style classes from elements that have such classes
+ */
 function clearDarkmode() {
     $("body").css("background-color", "#1B2845");
     $(".navbar-default").removeClass("navbar-darkmode");
@@ -207,6 +212,9 @@ function clearDarkmode() {
     localStorage.setItem('darkmode', 'false');
 }
 
+/**
+ * Add all darkmode style classes to elements that needs them
+ */
 function loadDarkmode() {
     $("input[type='checkbox']").prop('checked', true);
     $("body").css("background-color", "#1E1E1E");

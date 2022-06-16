@@ -19,3 +19,13 @@ div.template {
 .entry-date {
     float: right;
 }
+
+.navbar-header {
+    display: flex;
+    justify-content: left;
+}
+
+/*Only for accordion*/
+.panel {
+    margin-bottom: 20px !important;
+}

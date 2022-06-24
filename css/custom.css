@@ -80,6 +80,7 @@ button {
 .bg-danger {
     text-align: center;
     font-size: 16px;
+    color: white;
 }
 
 /* for Modal*/
@@ -181,12 +182,3 @@ input:checked + .slider:before {
 .goog-te-banner-frame.skiptranslate {
     display: none !important;
 }
-
-/* For hiding powered by text below choicebox*/
-/*.goog-logo-link {
-    display:none !important;
-}
-
-.goog-te-gadget{
-    color: transparent !important;
-}*/

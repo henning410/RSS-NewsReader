@@ -114,6 +114,11 @@ button {
     opacity: 1.0;
 }
 
+.notice {
+    font-size: 12px;
+    margin-top: 12px;
+}
+
 /* CSS for Toggle Switch*/
 /* The switch - the box around the slider */
 .switch {

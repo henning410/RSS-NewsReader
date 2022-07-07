@@ -33,7 +33,7 @@ function googleTranslateElementInit() {
     new google.translate.TranslateElement(
         {
             pageLanguage: 'de',
-            includedLanguages: 'de,en,fr,it,es'
+            includedLanguages: 'de,en,fr,it,es,uk'
         },
         'google_translate_element'
     );

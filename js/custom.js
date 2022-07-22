@@ -50,7 +50,8 @@ function loadRSS(url) {
     $.ajax({
         url: url,
         dataType: "xml",
-        success: success
+        success: success,
+        cache: false
     }).fail(function () {
         loadErrorMessage();
     });

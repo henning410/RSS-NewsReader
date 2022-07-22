@@ -45,27 +45,36 @@ function googleTranslateElementInit() {
  * @param {string} url
  */
 function loadRSS(url) {
-    const items = [];
-    $.get({
+    $.ajaxSetup({cache: false})
+
+    $.ajax({
         url: url,
         dataType: "xml",
-    }, function (data) {
-        $("#loading").text(""); //delete loading message
-        const xml = $(data);
-        const channel = xml.find("channel");
-        channel.children("item").each(function (index, element) {
-            const item = {
-                title: $(element).find("title").text(),
-                link: $(element).find("link").text(),
-                pubDate: $(element).find("pubDate").text(),
-                description: $(element).find("description").next().text(),
-            };
-            items.push(item);
-        });
-        updateFeed($("#accordion"), items);
+        success: success
     }).fail(function () {
         loadErrorMessage();
     });
+}
+
+/**
+ * method which is calles when ajax request was successfully
+ * @param data
+ */
+function success(data){
+    const items = [];
+    $("#loading").text(""); //delete loading message
+    const xml = $(data);
+    const channel = xml.find("channel");
+    channel.children("item").each(function (index, element) {
+        const item = {
+            title: $(element).find("title").text(),
+            link: $(element).find("link").text(),
+            pubDate: $(element).find("pubDate").text(),
+            description: $(element).find("description").next().text(),
+        };
+        items.push(item);
+    });
+    updateFeed($("#accordion"), items);
 }
 
 /**
